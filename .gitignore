@@ -1,0 +1,9 @@
+# VSCode configuration
+.vscode
+
+# Build files
+*.o
+
+# Binaries
+ft_ssl
+a.out
