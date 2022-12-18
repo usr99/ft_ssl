@@ -6,7 +6,7 @@
 /*   By: mamartin <mamartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/04 23:27:41 by mamartin          #+#    #+#             */
-/*   Updated: 2022/09/17 23:19:02 by mamartin         ###   ########.fr       */
+/*   Updated: 2022/11/20 20:31:20 by mamartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ int	print_null_ptr(t_flags flags)
 	size = ft_strlen(str);
 	if (!flags.is_left_adjusted)
 		print_blanks(size, flags, ' ');
-	ft_putstr_fd(str, 1);
+	ft_putstr_fd(str, 2);
 	if (flags.is_left_adjusted)
 		print_blanks(size, flags, ' ');
 	return (get_nb_char_printed(size, flags.width));
@@ -83,7 +83,7 @@ int	print_char(t_flags flags, va_list ap)
 	c = (unsigned char)va_arg(ap, int);
 	if (!flags.is_left_adjusted)
 		print_blanks(1, flags, ' ');
-	ft_putchar_fd(c, 1);
+	ft_putchar_fd(c, 2);
 	if (flags.is_left_adjusted)
 		print_blanks(1, flags, ' ');
 	return (get_nb_char_printed(1, flags.width));

@@ -6,7 +6,7 @@
 /*   By: mamartin <mamartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/02 12:52:26 by mamartin          #+#    #+#             */
-/*   Updated: 2022/09/17 23:05:05 by mamartin         ###   ########.fr       */
+/*   Updated: 2022/11/20 20:32:36 by mamartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,9 @@ int		ft_printf(const char *format, ...)
 	while (format[i])
 	{
 		if (format[i] != '%')
-			ft_putchar_fd(format[i], 1);
+			ft_putchar_fd(format[i], 2);
 		else if (format[i + 1] == '%')
-			ft_putchar_fd(format[i++], 1);
+			ft_putchar_fd(format[i++], 2);
 		else
 		{
 			if (!convert_arg(format + i + 1, ap, &i, &size))

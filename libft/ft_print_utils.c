@@ -6,7 +6,7 @@
 /*   By: mamartin <mamartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/06 23:49:32 by mamartin          #+#    #+#             */
-/*   Updated: 2022/09/17 23:05:08 by mamartin         ###   ########.fr       */
+/*   Updated: 2022/11/20 20:25:23 by mamartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,14 +22,14 @@ void	print(char *str, size_t size, t_flags flags, char blank)
 	{
 		if (flags.is_0_padded && !flags.is_left_adjusted)
 		{
-			ft_putchar_fd('-', 1);
+			ft_putchar_fd('-', 2);
 			ft_strlcpy(str, str + 1, ft_strlen(str));
 			is_minus_printed = 1;
 		}
 	}
 	if (!flags.is_left_adjusted)
 		print_blanks(size, flags, blank);
-	write(1, str, size - is_minus_printed);
+	write(2, str, size - is_minus_printed);
 	if (flags.is_left_adjusted)
 		print_blanks(size, flags, blank);
 }
@@ -74,7 +74,7 @@ void	print_blanks(size_t size, t_flags flags, char blank)
 	}
 	while ((int)size < flags.width)
 	{
-		ft_putchar_fd(blank, 1);
+		ft_putchar_fd(blank, 2);
 		size++;
 	}
 }
