@@ -6,7 +6,7 @@
 /*   By: mamartin <mamartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/17 18:40:04 by mamartin          #+#    #+#             */
-/*   Updated: 2022/12/17 19:46:17 by mamartin         ###   ########.fr       */
+/*   Updated: 2022/12/17 21:54:40 by mamartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,13 @@
 #include "ft_ssl.h"
 #include "ft_printf.h"
 
-static void print_usage(const char** commands, const char** flags)
+static void print_usage(t_command* commands, const char** flags)
 {
 	int i;
 
 	ft_putstr_fd("\nCommands:\n", STDERR_FILENO);
-	for (i = 0; commands[i]; i++)
-		ft_putendl_fd(commands[i], STDERR_FILENO);
+	for (i = 0; i < CMD_COUNT; i++)
+		ft_putendl_fd(commands[i].name, STDERR_FILENO);
 
 	ft_putstr_fd("\nFlags:\n", STDERR_FILENO);
 	for (i = 0; flags[i]; i++)
@@ -34,10 +34,9 @@ static void print_usage(const char** commands, const char** flags)
 
 int main(int argc, char** argv)
 {
-	static const char* COMMANDS[] = {
-		"md5",
-		"sha256",
-		NULL
+	static t_command COMMANDS[] = {
+		{ .name = "md5", .function = &md5 },
+		{ .name = "sha256", .function = &sha256 }
 	};
 
 	static const char* FLAGS[] = {
@@ -50,8 +49,8 @@ int main(int argc, char** argv)
 	
 	if (argc > 1)
 	{
-		t_command cmd = resolve_command_name(argv[1], COMMANDS);
-		if (cmd == UNKNOWN)
+		t_command* cmd = resolve_command_name(argv[1], COMMANDS);
+		if (!cmd)
 		{
 			// had to edit ft_printf to write on stderr because dprintf is not allowed :/
 			ft_printf("ft_ssl: %s: invalid command\n", argv[1]);
@@ -71,14 +70,22 @@ int main(int argc, char** argv)
 			}
 			error = true;
 		}
+
+		if (params.print_stdin || (!params.strings && !params.files))
+		{
+			if (!error && process_stdin(&params, cmd) != SUCCESS)
+				error = true;
+		}
+		if (!error && process_strings(&params, cmd) != SUCCESS)
+			error = true;
+		if (!error && process_files(&params, cmd) != SUCCESS)
+			error = true;
 	}
 	else
 	{
 		ft_putendl_fd("usage: ft_ssl command [flags] [file/string]", STDERR_FILENO);
 		error = true;
 	}
-	
-	debug_arguments(&params);
 
 	ft_lstclear(&params.files, NULL);
 	ft_lstclear(&params.strings, NULL);

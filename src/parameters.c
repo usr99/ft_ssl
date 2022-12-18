@@ -6,7 +6,7 @@
 /*   By: mamartin <mamartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/17 18:52:35 by mamartin          #+#    #+#             */
-/*   Updated: 2022/12/17 19:46:10 by mamartin         ###   ########.fr       */
+/*   Updated: 2022/12/17 21:52:06 by mamartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,17 +22,18 @@ static bool push_new_node(t_list** alst, char* str)
 	return true;
 }
 
-t_command resolve_command_name(const char* name, const char** commands_supported)
+t_command* resolve_command_name(const char* name, t_command* commands_supported)
 {
-	int i;
-	size_t namelen = ft_strlen(name);
-	for (i = 0; commands_supported[i]; i++)
+	const size_t namelen = ft_strlen(name);
+
+	int i;	
+	for (i = 0; i < CMD_COUNT; i++)
 	{
-		size_t cmdlen = ft_strlen(commands_supported[i]);
-		if (namelen == cmdlen && ft_strncmp(name, commands_supported[i], namelen) == 0)
-			return (t_command)i;
+		size_t cmdlen = ft_strlen(commands_supported[i].name);
+		if (namelen == cmdlen && ft_strncmp(name, commands_supported[i].name, namelen) == 0)
+			return commands_supported + i;
 	}
-	return UNKNOWN;
+	return NULL;
 }
 
 int parse_arguments(int argc, char **argv, t_parameters* opt)

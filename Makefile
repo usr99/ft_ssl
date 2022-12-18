@@ -10,7 +10,7 @@ CC		= gcc
 INC 	= -I ./include -I ./libft
 
 SRCDIR	= ./src/
-SRC		= main.c parameters.c
+SRC		= main.c parameters.c io.c hashing.c
 HEADERS = 
 DEPS = ${addprefix include/, ${HEADERS}}
 
