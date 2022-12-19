@@ -6,7 +6,7 @@
 /*   By: mamartin <mamartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/02 12:52:26 by mamartin          #+#    #+#             */
-/*   Updated: 2022/12/19 01:00:32 by mamartin         ###   ########.fr       */
+/*   Updated: 2022/12/19 01:06:31 by mamartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,7 @@ int		convert_arg(int fd, const char *format, va_list ap, int *i, int *size)
 	t_flags	flags;
 	int		ret;
 
+	flags.fd = fd;
 	flags = read_flags(format, ap);
 	flags.fd = fd;
 	*i += flags.size;
