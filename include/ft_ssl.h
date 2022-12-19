@@ -6,7 +6,7 @@
 /*   By: mamartin <mamartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/17 18:41:47 by mamartin          #+#    #+#             */
-/*   Updated: 2022/12/18 19:40:27 by mamartin         ###   ########.fr       */
+/*   Updated: 2022/12/19 00:53:12 by mamartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,6 @@ typedef enum
 /* Parameters management */
 t_command* resolve_command_name(const char* name, t_command* commands_supported);
 int parse_arguments(int argc, char **argv, t_parameters* opt);
-void debug_arguments(t_parameters* opt);
 
 /* Inputs and Ouputs */
 int process_stdin(t_parameters* opt, t_command* cmd);
