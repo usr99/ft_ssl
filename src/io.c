@@ -6,7 +6,7 @@
 /*   By: mamartin <mamartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/17 20:34:17 by mamartin          #+#    #+#             */
-/*   Updated: 2022/12/18 19:43:13 by mamartin         ###   ########.fr       */
+/*   Updated: 2022/12/19 00:06:21 by mamartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,10 @@ static char* _read(int fd, int* ret)
 		return NULL;
 	}
 
-	text[size] = '\0';
+	if (!text)
+		text = ft_calloc(1, 1);
+	else
+		text[size] = '\0';
 	return text;
 }
 
