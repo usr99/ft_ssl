@@ -6,12 +6,41 @@
 /*   By: mamartin <mamartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/02 12:52:26 by mamartin          #+#    #+#             */
-/*   Updated: 2022/11/20 20:32:36 by mamartin         ###   ########.fr       */
+/*   Updated: 2022/12/19 01:00:32 by mamartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 #include "mandatory.h"
+
+int		ft_dprintf(int fd, const char* format, ...)
+{
+	va_list	ap;
+	int		i;
+	int		size;
+
+	i = 0;
+	size = 0;
+	if (!format)
+		return (-1);
+	va_start(ap, format);
+	while (format[i])
+	{
+		if (format[i] != '%')
+			ft_putchar_fd(format[i], fd);
+		else if (format[i + 1] == '%')
+			ft_putchar_fd(format[i++], fd);
+		else
+		{
+			if (!convert_arg(fd, format + i + 1, ap, &i, &size))
+				return (-1);
+		}
+		i++;
+		size++;
+	}
+	va_end(ap);
+	return (size);
+}
 
 int		ft_printf(const char *format, ...)
 {
@@ -27,12 +56,12 @@ int		ft_printf(const char *format, ...)
 	while (format[i])
 	{
 		if (format[i] != '%')
-			ft_putchar_fd(format[i], 2);
+			ft_putchar_fd(format[i], STDOUT_FILENO);
 		else if (format[i + 1] == '%')
-			ft_putchar_fd(format[i++], 2);
+			ft_putchar_fd(format[i++], STDOUT_FILENO);
 		else
 		{
-			if (!convert_arg(format + i + 1, ap, &i, &size))
+			if (!convert_arg(STDOUT_FILENO, format + i + 1, ap, &i, &size))
 				return (-1);
 		}
 		i++;
@@ -42,12 +71,13 @@ int		ft_printf(const char *format, ...)
 	return (size);
 }
 
-int		convert_arg(const char *format, va_list ap, int *i, int *size)
+int		convert_arg(int fd, const char *format, va_list ap, int *i, int *size)
 {
 	t_flags	flags;
 	int		ret;
 
 	flags = read_flags(format, ap);
+	flags.fd = fd;
 	*i += flags.size;
 	if (flags.type == '%')
 	{

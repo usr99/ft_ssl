@@ -6,7 +6,7 @@
 /*   By: mamartin <mamartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/17 18:40:04 by mamartin          #+#    #+#             */
-/*   Updated: 2022/12/18 19:33:32 by mamartin         ###   ########.fr       */
+/*   Updated: 2022/12/19 00:50:16 by mamartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ int main(int argc, char** argv)
 		t_command* cmd = resolve_command_name(argv[1], COMMANDS);
 		if (!cmd)
 		{
-			ft_printf("ft_ssl: %s: invalid command\n", argv[1]);
+			ft_dprintf(STDERR_FILENO, "ft_ssl: %s: invalid command\n", argv[1]);
 			print_usage(COMMANDS, FLAGS);
 			error = true;
 		}
@@ -64,7 +64,7 @@ int main(int argc, char** argv)
 				ft_putendl_fd("ft_ssl: out of memory", STDERR_FILENO);
 			else
 			{
-				ft_printf("ft_ssl: %s: invalid flag\n", argv[ret]);
+				ft_dprintf(STDERR_FILENO, "ft_ssl: %s: invalid flag\n", argv[ret]);
 				print_usage(COMMANDS, FLAGS);
 			}
 			error = true;

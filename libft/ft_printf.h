@@ -6,7 +6,7 @@
 /*   By: mamartin <mamartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/06 23:48:54 by mamartin          #+#    #+#             */
-/*   Updated: 2022/09/17 22:38:34 by mamartin         ###   ########.fr       */
+/*   Updated: 2022/12/19 00:41:46 by mamartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,10 +24,13 @@ typedef struct	s_flags
 	int		precision;
 	char	type;
 	int		size;
+	int		fd;
 }				t_flags;
 
 int				ft_printf(const char *format, ...);
-int				convert_arg(const char *format, va_list ap, int *i, int *size);
+int				ft_dprintf(int fd, const char* format, ...);
+
+int				convert_arg(int fd, const char *format, va_list ap, int *i, int *size);
 int				print_arg(t_flags flags, va_list ap);
 
 t_flags			read_flags(const char *str, va_list ap);

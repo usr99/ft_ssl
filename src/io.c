@@ -6,7 +6,7 @@
 /*   By: mamartin <mamartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/17 20:34:17 by mamartin          #+#    #+#             */
-/*   Updated: 2022/12/19 00:06:21 by mamartin         ###   ########.fr       */
+/*   Updated: 2022/12/19 00:50:33 by mamartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -148,7 +148,7 @@ int process_files(t_parameters* opt, t_command* cmd)
 		int fd = open(file->content, O_RDONLY);
 		if (fd == -1)
 		{
-			ft_printf("ft_ssl: %s: %s: %s\n", cmd->name, file->content, strerror(errno));
+			ft_dprintf(STDERR_FILENO, "ft_ssl: %s: %s: %s\n", cmd->name, file->content, strerror(errno));
 			continue ;
 		}
 
