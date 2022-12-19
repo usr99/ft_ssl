@@ -6,11 +6,10 @@
 /*   By: mamartin <mamartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/17 20:48:31 by mamartin          #+#    #+#             */
-/*   Updated: 2022/12/18 19:31:29 by mamartin         ###   ########.fr       */
+/*   Updated: 2022/12/18 20:13:37 by mamartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <math.h>
 #include "ft_ssl.h"
 
 #define BLOCK_SIZE		64 // 512 bits

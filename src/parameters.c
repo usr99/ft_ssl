@@ -6,7 +6,7 @@
 /*   By: mamartin <mamartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/17 18:52:35 by mamartin          #+#    #+#             */
-/*   Updated: 2022/12/17 21:52:06 by mamartin         ###   ########.fr       */
+/*   Updated: 2022/12/19 00:51:03 by mamartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,16 +93,16 @@ int parse_arguments(int argc, char **argv, t_parameters* opt)
 
 void debug_arguments(t_parameters* opt)
 {
-	ft_printf("print stdin:\t%s\n", (opt->print_stdin ? "true" : "false"));
-	ft_printf("quiet output:\t%s\n", (opt->quiet ? "true" : "false"));
-	ft_printf("reverse output:\t%s\n\n", (opt->reversed_output ? "true" : "false"));
+	ft_dprintf(STDERR_FILENO, "print stdin:\t%s\n", (opt->print_stdin ? "true" : "false"));
+	ft_dprintf(STDERR_FILENO, "quiet output:\t%s\n", (opt->quiet ? "true" : "false"));
+	ft_dprintf(STDERR_FILENO, "reverse output:\t%s\n\n", (opt->reversed_output ? "true" : "false"));
 	
 	t_list* node;
-	ft_printf("strings:\n");
+	ft_dprintf(STDERR_FILENO, "strings:\n");
 	for (node = opt->strings; node; node = node->next)
-		ft_printf("%s\n", (char*)node->content);
+		ft_dprintf("%s\n", (char*)node->content);
 
-	ft_printf("\nfiles:\n");
+	ft_dprintf(STDERR_FILENO, "\nfiles:\n");
 	for (node = opt->files; node; node = node->next)
-		ft_printf("%s\n", (char*)node->content);
+		ft_dprintf(STDERR_FILENO, "%s\n", (char*)node->content);
 }
