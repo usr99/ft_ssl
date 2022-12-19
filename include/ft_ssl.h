@@ -6,7 +6,7 @@
 /*   By: mamartin <mamartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/17 18:41:47 by mamartin          #+#    #+#             */
-/*   Updated: 2022/12/17 23:41:15 by mamartin         ###   ########.fr       */
+/*   Updated: 2022/12/18 19:40:27 by mamartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,14 @@
 
 typedef struct
 {
+	uint8_t* digest;
+	uint8_t size;
+} t_hash;
+
+typedef struct
+{
 	const char* name;
-	char* (*function)(const char*);
+	t_hash* (*function)(const char*);
 } t_command;
 
 typedef struct
@@ -37,7 +43,8 @@ typedef struct
 typedef enum
 {
 	OOM = -1,
-	SUCCESS
+	SUCCESS,
+	READ_FAILURE
 } t_error;
 
 /* Parameters management */
@@ -51,7 +58,7 @@ int process_strings(t_parameters* opt, t_command* cmd);
 int process_files(t_parameters* opt, t_command* cmd);
 
 /* Hashing algorithms */
-char* md5(const char* src);
-char* sha256(const char* src);
+t_hash* md5(const char* src);
+t_hash* sha256(const char* src);
 
 #endif

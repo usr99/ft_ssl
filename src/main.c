@@ -6,7 +6,7 @@
 /*   By: mamartin <mamartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/17 18:40:04 by mamartin          #+#    #+#             */
-/*   Updated: 2022/12/17 21:54:40 by mamartin         ###   ########.fr       */
+/*   Updated: 2022/12/18 19:33:32 by mamartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,6 @@ int main(int argc, char** argv)
 		t_command* cmd = resolve_command_name(argv[1], COMMANDS);
 		if (!cmd)
 		{
-			// had to edit ft_printf to write on stderr because dprintf is not allowed :/
 			ft_printf("ft_ssl: %s: invalid command\n", argv[1]);
 			print_usage(COMMANDS, FLAGS);
 			error = true;

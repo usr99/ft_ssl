@@ -6,7 +6,7 @@
 /*   By: mamartin <mamartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/18 04:08:52 by mamartin          #+#    #+#             */
-/*   Updated: 2022/10/23 01:09:56 by mamartin         ###   ########.fr       */
+/*   Updated: 2022/12/18 01:06:35 by mamartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include <stdlib.h>
 #include "opt_parser.h"
 #include "mandatory.h"
-#include "math.h"
+#include "libft_math.h"
 
 int ft_getarg(int argc, char** argv, t_expected_opts* options, int count, t_argument* arg)
 {

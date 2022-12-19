@@ -6,12 +6,12 @@
 /*   By: mamartin <mamartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/22 14:42:30 by mamartin          #+#    #+#             */
-/*   Updated: 2022/10/23 01:11:21 by mamartin         ###   ########.fr       */
+/*   Updated: 2022/12/18 01:06:26 by mamartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "mandatory.h"
-#include "math.h"
+#include "libft_math.h"
 
 static int is_whitespace(char c)
 {
