@@ -6,7 +6,7 @@
 /*   By: mamartin <mamartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/17 18:41:47 by mamartin          #+#    #+#             */
-/*   Updated: 2022/12/19 00:53:12 by mamartin         ###   ########.fr       */
+/*   Updated: 2022/12/19 17:46:40 by mamartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 # include "libft.h"
 
 # define CMD_COUNT 2
+# define ALIGN(size, boundary)	((size + boundary - 1) & ~(boundary - 1))
 
 typedef struct
 {
@@ -27,7 +28,7 @@ typedef struct
 typedef struct
 {
 	const char* name;
-	t_hash* (*function)(const char*);
+	t_hash* (*function)(const char*, size_t);
 } t_command;
 
 typedef struct
@@ -57,7 +58,7 @@ int process_strings(t_parameters* opt, t_command* cmd);
 int process_files(t_parameters* opt, t_command* cmd);
 
 /* Hashing algorithms */
-t_hash* md5(const char* src);
-t_hash* sha256(const char* src);
+t_hash* md5(const char* src, size_t length);
+t_hash* sha256(const char* src, size_t length);
 
 #endif

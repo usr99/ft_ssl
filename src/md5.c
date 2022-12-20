@@ -6,21 +6,21 @@
 /*   By: mamartin <mamartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/17 20:48:31 by mamartin          #+#    #+#             */
-/*   Updated: 2022/12/18 20:13:37 by mamartin         ###   ########.fr       */
+/*   Updated: 2022/12/19 17:46:37 by mamartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ssl.h"
 
-#define BLOCK_SIZE		64 // 512 bits
-#define MD5_DIGEST_SIZE	16 // 128 bits
+#define BLOCK_SIZE				64 // 512 bits
+#define MD5_DIGEST_SIZE			16 // 128 bits
 
 static uint32_t rotate_left(uint32_t value, uint8_t shift)
 {
 	return (value << shift) | (value >> (32 - shift));
 }
 
-t_hash* md5(const char* src)
+t_hash* md5(const char* src, size_t length)
 {
 	static const uint8_t S[64] = {
 		7, 12, 17, 22, 7, 12, 17, 22, 7, 12, 17, 22, 7, 12, 17, 22,
@@ -48,8 +48,11 @@ t_hash* md5(const char* src)
     	0xf7537e82, 0xbd3af235, 0x2ad7d2bb, 0xeb86d391
 	};
 
-	uint64_t length = ft_strlen(src);
-	uint64_t size = (length / BLOCK_SIZE + 1) * BLOCK_SIZE;
+	uint64_t bitlen = length * 8;
+	uint64_t pad = bitlen + 1 + 64;
+	pad = ALIGN(pad, 512);
+	uint64_t size = pad / 8;
+
 	uint8_t* message = malloc(size);
 	if (!message)
 		return NULL;
@@ -58,8 +61,7 @@ t_hash* md5(const char* src)
 	ft_memcpy(message, src, length);											// copy original message
 	message[length] = (1 << 7);													// append 1 bit
 	ft_memset(message + length + 1, 0, size - length - 1 - sizeof(uint64_t));	// append 0 bits until size is a multiple of (512 - 64) = 448
-	length *= 8;
-	ft_memcpy(message + size - sizeof(uint64_t), &length, sizeof(uint64_t));	// append the initial message length to reach 512 bits
+	ft_memcpy(message + size - sizeof(uint64_t), &bitlen, sizeof(uint64_t));	// append the initial message length to reach 512 bits
 
 	/* Initialization */
 	uint64_t i;

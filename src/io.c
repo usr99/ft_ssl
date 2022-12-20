@@ -6,7 +6,7 @@
 /*   By: mamartin <mamartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/17 20:34:17 by mamartin          #+#    #+#             */
-/*   Updated: 2022/12/19 00:50:33 by mamartin         ###   ########.fr       */
+/*   Updated: 2022/12/19 16:26:48 by mamartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 #include <errno.h>
 #include "ft_ssl.h"
 
-static char* _read(int fd, int* ret)
+static char* _read(int fd, int* fsize)
 {
 	const int READ_SIZE = 5000;
 
@@ -24,10 +24,10 @@ static char* _read(int fd, int* ret)
 	char *tmp = NULL;
 	char *text = NULL;
 
-	while ((*ret = read(fd, buffer, READ_SIZE)) > 0)
+	while ((*fsize = read(fd, buffer, READ_SIZE)) > 0)
 	{
 		int oldsize = size;
-		size += *ret * sizeof(char);
+		size += *fsize * sizeof(char);
 		text = malloc(size + 1);
 		if (!text)
 		{
@@ -37,23 +37,29 @@ static char* _read(int fd, int* ret)
 
 		if (tmp)
 		{
-			ft_strlcpy(text, tmp, oldsize + 1);
+			ft_memcpy(text, tmp, oldsize);
 			free(tmp);
 		}
-		ft_strlcpy(text + oldsize, buffer, *ret + 1);
+		ft_memcpy(text + oldsize, buffer, *fsize);
 		tmp = text;
 	}
 
-	if (*ret < 0)
+	if (*fsize < 0)
 	{
 		free(text);
 		return NULL;
 	}
 
 	if (!text)
+	{
 		text = ft_calloc(1, 1);
+		*fsize = 0;
+	}
 	else
+	{
 		text[size] = '\0';
+		*fsize = size;
+	}
 	return text;
 }
 
@@ -93,17 +99,17 @@ static void output(t_hash* result, const char* src, const char* cmdname, bool qu
 
 int process_stdin(t_parameters* opt, t_command* cmd)
 {
-	int ret;
-	char *text = _read(STDIN_FILENO, &ret);
+	int size;
+	char *text = _read(STDIN_FILENO, &size);
 	if (!text)
 	{
-		if (ret == 0)
+		if (size == 0)
 			return OOM;
 		else
 			return READ_FAILURE;
 	}
 
-	t_hash *result = cmd->function(text);
+	t_hash *result = cmd->function(text, size);
 	if (!result)
 	{
 		free(text);
@@ -129,7 +135,7 @@ int process_strings(t_parameters* opt, t_command* cmd)
 	t_list* str;
 	for (str = opt->strings; str; str = str->next)
 	{
-		t_hash* result = cmd->function(str->content);
+		t_hash* result = cmd->function(str->content, ft_strlen(str->content));
 		if (!result)
 			return OOM;
 
@@ -152,18 +158,18 @@ int process_files(t_parameters* opt, t_command* cmd)
 			continue ;
 		}
 
-		int ret;
-		char* text = _read(fd, &ret);
+		int size;
+		char* text = _read(fd, &size);
 		close(fd);
 		if (!text)
 		{
-			if (ret == 0)
+			if (size == 0)
 				return OOM;
 			else
 				return READ_FAILURE;
 		}
 
-		t_hash* result = cmd->function(text);
+		t_hash* result = cmd->function(text, size);
 		free(text);
 		if (!result)
 			return OOM;
